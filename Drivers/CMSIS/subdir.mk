@@ -1,0 +1,10 @@
+
+CURRENCT_DIR=Drivers/CMSIS
+
+
+CMSIS_INCS := -I$(CURRENCT_DIR)/Include 
+CMSIS_INCS += -I$(CURRENCT_DIR)/Device/GD/GD32F4xx/Include
+
+INCS += $(CMSIS_INCS)
+
+

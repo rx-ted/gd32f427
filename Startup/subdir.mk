@@ -1,0 +1,5 @@
+CURRENCT_DIR=Startup
+
+ASM_SOURCES := $(CURRENCT_DIR)/startup_gd32f407_427.s
+
+LD_SRCS :=$(CURRENCT_DIR)/gd32f427.ld
