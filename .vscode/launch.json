@@ -2,21 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "cwd": ".",
-      "executable": "output/bluepill.elf",
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceRoot}/build/866.elf",
       "name": "Debug with OpenOCD",
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
-      "device": "STM32F103C8",
       "configFiles": [
-        "/usr/share/openocd/scripts/interface/stlink-v2.cfg",
-        "/usr/share/openocd/scripts/target/stm32f1x.cfg"
+        "/usr/share/openocd/scripts/interface/cmsis-dap.cfg",
+        "/usr/share/openocd/scripts/target/stm32f4x.cfg"
       ],
       "swoConfig": {},
       "postRestartCommands": [
         "break main",
         "continue"
+      ],
+      "openOCDLaunchCommands": [
+        "cmsis_dap_backend hid",
+        "transport select swd",
       ],
       "searchDir": [],
       "runToEntryPoint": "main",
