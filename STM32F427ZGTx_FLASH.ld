@@ -1,54 +1,3 @@
-/*
-******************************************************************************
-**
-
-**  File        : LinkerScript.ld
-**
-**  Author		: STM32CubeMX
-**
-**  Abstract    : Linker script for STM32F427ZGTx series
-**                1024Kbytes FLASH and 256Kbytes RAM
-**
-**                Set heap size, stack size and stack location according
-**                to application requirements.
-**
-**                Set memory bank area and size if external memory is used.
-**
-**  Target      : STMicroelectronics STM32
-**
-**  Distribution: The file is distributed “as is,” without any warranty
-**                of any kind.
-**
-*****************************************************************************
-** @attention
-**
-** <h2><center>&copy; COPYRIGHT(c) 2019 STMicroelectronics</center></h2>
-**
-** Redistribution and use in source and binary forms, with or without modification,
-** are permitted provided that the following conditions are met:
-**   1. Redistributions of source code must retain the above copyright notice,
-**      this list of conditions and the following disclaimer.
-**   2. Redistributions in binary form must reproduce the above copyright notice,
-**      this list of conditions and the following disclaimer in the documentation
-**      and/or other materials provided with the distribution.
-**   3. Neither the name of STMicroelectronics nor the names of its contributors
-**      may be used to endorse or promote products derived from this software
-**      without specific prior written permission.
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-** AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-** IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-** DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-** FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-** DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-** SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-** CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-** OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**
-*****************************************************************************
-*/
-
 /* Entry Point */
 ENTRY(Reset_Handler)
 
@@ -58,150 +7,143 @@ _estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */
 _Min_Heap_Size = 0x200;      /* required amount of heap  */
 _Min_Stack_Size = 0x400; /* required amount of stack */
 
+_system_stack_size = 0x400;
+
 /* Specify the memory areas */
 MEMORY
 {
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 256K
-CCMRAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 64K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 1024K
 }
 
-/* Define output sections */
+
+/* define the sections */
 SECTIONS
 {
-  /* The startup code goes first into FLASH */
-  .isr_vector :
-  {
-    . = ALIGN(4);
-    KEEP(*(.isr_vector)) /* Startup code */
-    . = ALIGN(4);
-  } >FLASH
+	.text :
+	{
+		. = ALIGN(4);
+		_stext = .;					/* Defined as the address of the current location and used to record the start address of the code snippet (text). */
+		KEEP(*(.isr_vector))		/* Startup code, Used to define a table of interrupt vectors */
+		. = ALIGN(4);
+		*(.text)					/* remaining code */
+		*(.text.*)					/* remaining code */
+		*(.rodata)					/* read-only data (constants) */
+		*(.rodata*)					/* read-only data (constants) */
+		*(.glue_7)					/* Function call jumps are typically used for the ARM architecture(ARM instructions ) */
+		*(.glue_7t)					/* Function call jumps are typically used for the ARM architecture(Thumb instructions ) */
+		*(.gnu.linkonce.t*)			/* Allows the linker to merge the same function definitions */
 
-  /* The program code and other data goes into FLASH */
-  .text :
-  {
-    . = ALIGN(4);
-    *(.text)           /* .text sections (code) */
-    *(.text*)          /* .text* sections (code) */
-    *(.glue_7)         /* glue arm to thumb code */
-    *(.glue_7t)        /* glue thumb to arm code */
-    *(.eh_frame)
+		/* section information for finsh shell */
+		. = ALIGN(4);
+		__fsymtab_start = .;
+		KEEP(*(FSymTab))
+		__fsymtab_end = .;
+		. = ALIGN(4);
+		__vsymtab_start = .;
+		KEEP(*(VSymTab))
+		__vsymtab_end = .;
+		. = ALIGN(4);
 
-    KEEP (*(.init))
-    KEEP (*(.fini))
+		/* section information for initial. */
+		. = ALIGN(4);
+		__rt_init_start = .;
+		KEEP(*(SORT(.rti_fn*)))
+		__rt_init_end = .;
+		. = ALIGN(4);
 
-    . = ALIGN(4);
-    _etext = .;        /* define a global symbols at end of code */
-  } >FLASH
+		. = ALIGN(4);
+		_etext = .;
+	} > FLASH = 0
 
-  /* Constant data goes into FLASH */
-  .rodata :
-  {
-    . = ALIGN(4);
-    *(.rodata)         /* .rodata sections (constants, strings, etc.) */
-    *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
-    . = ALIGN(4);
-  } >FLASH
+	/* .ARM.exidx is sorted, so has to go in its own output section.  */
+	__exidx_start = .;
+	.ARM.exidx :
+	{
+		*(.ARM.exidx* .gnu.linkonce.armexidx.*)
 
-  .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
-  .ARM : {
-    __exidx_start = .;
-    *(.ARM.exidx*)
-    __exidx_end = .;
-  } >FLASH
+		/* This is used by the startup in order to initialize the .data secion */
+		_sidata = .;
+	} > FLASH
+	__exidx_end = .;
 
-  .preinit_array     :
-  {
-    PROVIDE_HIDDEN (__preinit_array_start = .);
-    KEEP (*(.preinit_array*))
-    PROVIDE_HIDDEN (__preinit_array_end = .);
-  } >FLASH
-  .init_array :
-  {
-    PROVIDE_HIDDEN (__init_array_start = .);
-    KEEP (*(SORT(.init_array.*)))
-    KEEP (*(.init_array*))
-    PROVIDE_HIDDEN (__init_array_end = .);
-  } >FLASH
-  .fini_array :
-  {
-    PROVIDE_HIDDEN (__fini_array_start = .);
-    KEEP (*(SORT(.fini_array.*)))
-    KEEP (*(.fini_array*))
-    PROVIDE_HIDDEN (__fini_array_end = .);
-  } >FLASH
+	/* .data section which is used for initialized data */
 
-  /* used by the startup to initialize data */
-  _sidata = LOADADDR(.data);
+	.data : AT (_sidata)
+	{
+		. = ALIGN(4);
+		/* This is used by the startup in order to initialize the .data secion */
+		_sdata = . ;
 
-  /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data :
-  {
-    . = ALIGN(4);
-    _sdata = .;        /* create a global symbol at data start */
-    *(.data)           /* .data sections */
-    *(.data*)          /* .data* sections */
+		*(.data)
+		*(.data.*)
+		*(.gnu.linkonce.d*)
 
-    . = ALIGN(4);
-    _edata = .;        /* define a global symbol at data end */
-  } >RAM AT> FLASH
+		. = ALIGN(4);
+		/* This is used by the startup in order to initialize the .data secion */
+		_edata = . ;
+	} >RAM
 
-  _siccmram = LOADADDR(.ccmram);
+	.stack : 
+	{
+		. = . + _system_stack_size;
+		. = ALIGN(4);
+		_estack = .;
+	} >RAM
 
-  /* CCM-RAM section
-  *
-  * IMPORTANT NOTE!
-  * If initialized variables will be placed in this section,
-  * the startup code needs to be modified to copy the init-values.
-  */
-  .ccmram :
-  {
-    . = ALIGN(4);
-    _sccmram = .;       /* create a global symbol at ccmram start */
-    *(.ccmram)
-    *(.ccmram*)
+	__bss_start = .;
+	.bss :
+	{
+		. = ALIGN(4);
+		/* This is used by the startup in order to initialize the .bss secion */
+		_sbss = .;
 
-    . = ALIGN(4);
-    _eccmram = .;       /* create a global symbol at ccmram end */
-  } >CCMRAM AT> FLASH
+		*(.bss)
+		*(.bss.*)
+		*(COMMON)
 
+		. = ALIGN(4);
+		/* This is used by the startup in order to initialize the .bss secion */
+		_ebss = . ;
 
-  /* Uninitialized data section */
-  . = ALIGN(4);
-  .bss :
-  {
-    /* This is used by the startup in order to initialize the .bss secion */
-    _sbss = .;         /* define a global symbol at bss start */
-    __bss_start__ = _sbss;
-    *(.bss)
-    *(.bss*)
-    *(COMMON)
+		*(.bss.init)
+	} > RAM
+	__bss_end = .;
+	
+	_end = .;
+	end = .;
 
-    . = ALIGN(4);
-    _ebss = .;         /* define a global symbol at bss end */
-    __bss_end__ = _ebss;
-  } >RAM
-
-  /* User_heap_stack section, used to check that there is enough RAM left */
-  ._user_heap_stack :
-  {
-    . = ALIGN(8);
-    PROVIDE ( end = . );
-    PROVIDE ( _end = . );
-    . = . + _Min_Heap_Size;
-    . = . + _Min_Stack_Size;
-    . = ALIGN(8);
-  } >RAM
-
-
-
-  /* Remove information from the standard libraries */
-  /DISCARD/ :
-  {
-    libc.a ( * )
-    libm.a ( * )
-    libgcc.a ( * )
-  }
-
-  .ARM.attributes 0 : { *(.ARM.attributes) }
+	/* Stabs debugging sections.  */
+	.stab          0 : { *(.stab) }
+	.stabstr       0 : { *(.stabstr) }
+	.stab.excl     0 : { *(.stab.excl) }
+	.stab.exclstr  0 : { *(.stab.exclstr) }
+	.stab.index    0 : { *(.stab.index) }
+	.stab.indexstr 0 : { *(.stab.indexstr) }
+	.comment       0 : { *(.comment) }
+	/* DWARF debug sections.
+	 * Symbols in the DWARF debugging sections are relative to the beginning
+	 * of the section so we begin them at 0.  */
+	/* DWARF 1 */
+	.debug          0 : { *(.debug) }
+	.line           0 : { *(.line) }
+	/* GNU DWARF 1 extensions */
+	.debug_srcinfo  0 : { *(.debug_srcinfo) }
+	.debug_sfnames  0 : { *(.debug_sfnames) }
+	/* DWARF 1.1 and DWARF 2 */
+	.debug_aranges  0 : { *(.debug_aranges) }
+	.debug_pubnames 0 : { *(.debug_pubnames) }
+	/* DWARF 2 */
+	.debug_info     0 : { *(.debug_info .gnu.linkonce.wi.*) }
+	.debug_abbrev   0 : { *(.debug_abbrev) }
+	.debug_line     0 : { *(.debug_line) }
+	.debug_frame    0 : { *(.debug_frame) }
+	.debug_str      0 : { *(.debug_str) }
+	.debug_loc      0 : { *(.debug_loc) }
+	.debug_macinfo  0 : { *(.debug_macinfo) }
+	/* SGI/MIPS DWARF 2 extensions */
+	.debug_weaknames 0 : { *(.debug_weaknames) }
+	.debug_funcnames 0 : { *(.debug_funcnames) }
+	.debug_typenames 0 : { *(.debug_typenames) }
+	.debug_varnames  0 : { *(.debug_varnames) }
 }
