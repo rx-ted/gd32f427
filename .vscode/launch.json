@@ -3,7 +3,7 @@
   "configurations": [
     {
       "cwd": "${workspaceRoot}",
-      "executable": "${workspaceRoot}/build/866.elf",
+      "executable": "${workspaceRoot}/build/gd32f427zgt6.elf",
       "name": "Debug with OpenOCD",
       "request": "launch",
       "type": "cortex-debug",
