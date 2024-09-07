@@ -1,7 +1,10 @@
 {
     "files.associations": {
+        "*.styl": "css",
         "stdint.h": "c",
         "stm32f1xx_hal_spi.h": "c",
-        "stm32f1xx_hal_def.h": "c"
+        "stm32f1xx_hal_def.h": "c",
+        "gd32f4xx.h": "c",
+        "sys.h": "c"
     }
 }

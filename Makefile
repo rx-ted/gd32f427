@@ -6,7 +6,8 @@ BUILD_DIR=$(CURR_DIR)/build
 DEBUG = 1
 OPT = -Og
 
-HAL_LIB=STM32F4xx
+HAL_LIB=GD32F4xx
+HAL_PREFIX=GD
 
 
 CROSS_COMPILE=arm-none-eabi-
@@ -65,6 +66,7 @@ LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BU
 
 include Core/subdir.mk
 include Drivers/subdir.mk
+include HW/subdir.mk
 
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 

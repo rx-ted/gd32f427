@@ -1,4 +1,4 @@
-C_INCLUDES += -IDrivers/CMSIS/Device/ST/$(HAL_LIB)/Include
+C_INCLUDES += -IDrivers/CMSIS/Device/$(HAL_PREFIX)/$(HAL_LIB)/Include
 C_INCLUDES += -IDrivers/CMSIS/Include
 
 CURRENCT_DIR=Drivers/$(HAL_LIB)_HAL_Driver
