@@ -2,8 +2,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "cwd": "${workspaceRoot}",
-      "executable": "${workspaceRoot}/build/gd32f427zgt6.elf",
+      "cwd": ".",
+      "executable": "build/gd32f427zgt6.elf",
       "name": "Debug with OpenOCD",
       "request": "launch",
       "type": "cortex-debug",
@@ -19,7 +19,7 @@
       ],
       "openOCDLaunchCommands": [
         "cmsis_dap_backend hid",
-        "transport select swd",
+        "transport select swd"
       ],
       "searchDir": [],
       "runToEntryPoint": "main",
