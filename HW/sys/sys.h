@@ -3,33 +3,20 @@
 
 #include "gd32f4xx.h"
 
-
 /**
- * SYS_SUPPORT_OSç”¨äºå®šä¹‰ç³»ç»Ÿæ–‡ä»¶å¤¹æ˜¯å¦æ”¯æŒOS
- * 0,ä¸æ”¯æŒOS
- * 1,æ”¯æŒOS
+ * SYS_SUPPORT_OSÓÃÓÚ¶¨ÒåÏµÍ³ÎÄ¼ş¼ĞÊÇ·ñÖ§³ÖOS
+ * 0,²»Ö§³ÖOS
+ * 1,Ö§³ÖOS
  */
-#define SYS_SUPPORT_OS          0
+#define SYS_SUPPORT_OS 0
 
+/* ÆÕÍ¨º¯Êı */
+void sys_soft_reset(void); /* ÏµÍ³Èí¸´Î» */
 
-/* æ™®é€šå‡½æ•° */
-void sys_soft_reset(void);                                                      /* ç³»ç»Ÿè½¯å¤ä½ */
-
-/* ä»¥ä¸‹ä¸ºæ±‡ç¼–å‡½æ•° */
-void sys_wfi_set(void);                                                         /* æ‰§è¡ŒWFIæŒ‡ä»¤ */
-void sys_intx_disable(void);                                                    /* å…³é—­æ‰€æœ‰ä¸­æ–­ */
-void sys_intx_enable(void);                                                     /* å¼€å¯æ‰€æœ‰ä¸­æ–­ */
-void sys_msr_msp(uint32_t addr);                                                /* è®¾ç½®æ ˆé¡¶åœ°å€ */
+/* ÒÔÏÂÎª»ã±àº¯Êı */
+void sys_wfi_set(void);          /* Ö´ĞĞWFIÖ¸Áî */
+void sys_intx_disable(void);     /* ¹Ø±ÕËùÓĞÖĞ¶Ï */
+void sys_intx_enable(void);      /* ¿ªÆôËùÓĞÖĞ¶Ï */
+void sys_msr_msp(uint32_t addr); /* ÉèÖÃÕ»¶¥µØÖ· */
 
 #endif
-
-
-
-
-
-
-
-
-
-
-

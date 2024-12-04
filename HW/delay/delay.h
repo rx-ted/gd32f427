@@ -1,6 +1,6 @@
 /************************************************
- * ä½¿ç”¨SysTickçš„æ™®é€šè®¡æ•°æ¨¡å¼å¯¹å»¶è¿Ÿè¿›è¡Œç®¡ç†
- * åŒ…æ‹¬delay_us,delay_ms
+ * Ê¹ÓÃSysTickµÄÆÕÍ¨¼ÆÊıÄ£Ê½¶ÔÑÓ³Ù½øĞĞ¹ÜÀí
+ * °üÀ¨delay_us,delay_ms
  ************************************************/
 
 #ifndef __DELAY_H
@@ -8,8 +8,8 @@
 
 #include "sys.h"
 
-void delay_init(uint16_t sysclk); /* åˆå§‹åŒ–å»¶è¿Ÿå‡½æ•° */
-void delay_ms(uint16_t nms);      /* å»¶æ—¶nms */
-void delay_us(uint32_t nus);      /* å»¶æ—¶nus */
+void delay_init(uint16_t sysclk); /* ³õÊ¼»¯ÑÓ³Ùº¯Êı */
+void delay_ms(uint16_t nms);      /* ÑÓÊ±nms */
+void delay_us(uint32_t nus);      /* ÑÓÊ±nus */
 
 #endif

@@ -1,36 +1,51 @@
 #include "sys.h"
 
 /**
- * @brief       æ‰§è¡Œ: WFIæŒ‡ä»¤(æ‰§è¡Œå®Œè¯¥æŒ‡ä»¤è¿›å…¥ä½åŠŸè€—çŠ¶æ€, ç­‰å¾…ä¸­æ–­å”¤é†’)
- * @param       æ— 
- * @retval      æ— 
+ * @brief       Ö´ĞĞ: WFIÖ¸Áî(Ö´ĞĞÍê¸ÃÖ¸Áî½øÈëµÍ¹¦ºÄ×´Ì¬, µÈ´ıÖĞ¶Ï»½ĞÑ)
+ * @param       ÎŞ
+ * @retval      ÎŞ
  */
-void sys_wfi_set(void) { __ASM volatile("wfi"); }
+void sys_wfi_set(void)
+{
+    __ASM volatile("wfi");
+}
 
 /**
- * @brief       å…³é—­æ‰€æœ‰ä¸­æ–­(ä½†æ˜¯ä¸åŒ…æ‹¬faultå’ŒNMIä¸­æ–­)
- * @param       æ— 
- * @retval      æ— 
+ * @brief       ¹Ø±ÕËùÓĞÖĞ¶Ï(µ«ÊÇ²»°üÀ¨faultºÍNMIÖĞ¶Ï)
+ * @param       ÎŞ
+ * @retval      ÎŞ
  */
-void sys_intx_disable(void) { __ASM volatile("cpsid i"); }
+void sys_intx_disable(void)
+{
+    __ASM volatile("cpsid i");
+}
 
 /**
- * @brief       å¼€å¯æ‰€æœ‰ä¸­æ–­
- * @param       æ— 
- * @retval      æ— 
+ * @brief       ¿ªÆôËùÓĞÖĞ¶Ï
+ * @param       ÎŞ
+ * @retval      ÎŞ
  */
-void sys_intx_enable(void) { __ASM volatile("cpsie i"); }
+void sys_intx_enable(void)
+{
+    __ASM volatile("cpsie i");
+}
 
 /**
- * @brief       è®¾ç½®æ ˆé¡¶åœ°å€
- * @param       addr: æ ˆé¡¶åœ°å€
- * @retval      æ— 
+ * @brief       ÉèÖÃÕ»¶¥µØÖ·
+ * @param       addr: Õ»¶¥µØÖ·
+ * @retval      ÎŞ
  */
-void sys_msr_msp(uint32_t addr) { __set_MSP(addr); /* è®¾ç½®æ ˆé¡¶åœ°å€ */ }
+void sys_msr_msp(uint32_t addr)
+{
+    __set_MSP(addr); /* ÉèÖÃÕ»¶¥µØÖ· */
+}
 
 /**
- * @brief       ç³»ç»Ÿè½¯å¤ä½
- * @param       æ— 
- * @retval      æ— 
+ * @brief       ÏµÍ³Èí¸´Î»
+ * @param       ÎŞ
+ * @retval      ÎŞ
  */
-void sys_soft_reset(void) { NVIC_SystemReset(); }
+void sys_soft_reset(void)
+{
+    NVIC_SystemReset();
+}

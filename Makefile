@@ -38,7 +38,7 @@ C_DEFS =  \
 -DSTM32_THREAD_SAFE_STRATEGY=2
 
 AS_INCLUDES =
-ASM_SOURCES = startup_stm32f427xx.s
+ASM_SOURCES = Drivers/CMSIS/GD/GD32F4xx/Source/GCC/startup_stm32f427xx.s
 ASMM_SOURCES =
 
 
@@ -119,7 +119,12 @@ $(BUILD_DIR):
 clean:
 	-rm -fR $(BUILD_DIR)
   
--include $(wildcard $(BUILD_DIR)/*.d)
+# -include $(wildcard $(BUILD_DIR)/*.d)
+
+echo:
+	@echo C_INCLUDES:$(C_INCLUDES) 
+	@echo C_SOURCES: $(C_SOURCES) 
+	@echo CPP_SOURCES: $(CPP_SOURCES)
 
 flash:
 	openocd  \

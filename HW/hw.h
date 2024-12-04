@@ -1,12 +1,9 @@
-#include <stdbool.h>
-#include <stdint.h>
-#include "delay.h"
-#include "exti.h"
-#include "lcd.h"
-#include "led.h"
-#include "pwm.h"
+#include "gd32f4xx.h"
+#include "systick.h"
+#include <stdio.h>
+#include "gd32f427zgt6.h"
+#include "main.h"
 #include "sys.h"
-#include "usart.h"
-#include "tm16xx.h"
+#include "delay.h"
 
 void hw();

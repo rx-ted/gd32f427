@@ -8,5 +8,3 @@ C_INCLUDES += $(foreach dir, $(sort $(dir $(CORE_HDRS))), -I$(dir))
 
 C_SOURCES += $(foreach dir, $(CORE_DIRS), $(wildcard $(dir)/*.c))
 CPP_SOURCES += $(foreach dir, $(CORE_DIRS), $(wildcard $(dir)/*.cpp))
-ASM_SOURCES+= $(foreach dir, $(CORE_DIRS), $(wildcard $(dir)/*.s))
-ASMM_SOURCES+= $(foreach dir, $(CORE_DIRS), $(wildcard $(dir)/*.S))
