@@ -12,6 +12,11 @@
         "/usr/share/openocd/scripts/interface/cmsis-dap.cfg",
         "/usr/share/openocd/scripts/target/stm32f4x.cfg"
       ],
+      "liveWatch": {
+        "enabled": true,
+        "samplesPerSecond": 4
+      },
+      "svdFile": "./GD32F4xx.svd",
       "swoConfig": {},
       "postRestartCommands": [
         "break main",

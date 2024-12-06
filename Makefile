@@ -4,7 +4,7 @@ CURR_DIR=.
 TARGET= $(notdir $(shell pwd))
 BUILD_DIR=$(CURR_DIR)/build
 DEBUG = 1
-OPT = -Og
+OPT = -Os
 
 HAL_LIB=GD32F4xx
 HAL_PREFIX=GD
@@ -15,8 +15,8 @@ CC=$(CROSS_COMPILE)gcc
 XX=$(CROSS_COMPILE)g++
 LD=$(CROSS_COMPILE)ld
 AR=$(CROSS_COMPILE)ar
-# AS=$(CROSS_COMPILE)as
-AS=$(CROSS_COMPILE)gcc -x assembler-with-cpp
+AS=$(CROSS_COMPILE)as
+# AS=$(CROSS_COMPILE)gcc -x assembler-with-cpp
 OC=$(CROSS_COMPILE)objcopy
 OD=$(CROSS_COMPILE)objdump
 SZ=$(CROSS_COMPILE)size
@@ -56,7 +56,7 @@ endif
 
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
-LDSCRIPT = STM32F427ZGTx_FLASH.ld
+LDSCRIPT = link.ld
 
 LIBS = -lc -lm -lnosys
 
@@ -85,19 +85,19 @@ vpath %.S $(sort $(dir $(ASMM_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	@echo "[CC] $<"
-	@$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+	@$(CC) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR) 
 	@echo "[XX] $<"
-	@$(XX) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
+	@$(XX) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	@echo "[AS] $<" 
-	@$(AS) -c $(CFLAGS) $< -o $@
+	@$(AS) -c  $< -o $@
 
 $(BUILD_DIR)/%.o: %.S Makefile | $(BUILD_DIR)
 	@echo "[AS] $<" 
-	@$(AS) -c $(CFLAGS) $< -o $@
+	@$(AS) -c $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	@$(CC) $(OBJECTS) $(LDFLAGS) -o $@
@@ -135,3 +135,10 @@ flash:
 		-c init -c halt \
 		-c "flash write_image erase build/$(TARGET).elf" \
 		-c reset -c shutdown
+download:
+	openocd \
+	-f interface/cmsis-dap.cfg \
+	-f target/stm32f4x.cfg \
+	-c "cmsis_dap_backend hid" \
+	-c 'transport select swd' \
+	-c 'program build/$(TARGET).elf verify reset exit'

@@ -1,1 +1,16 @@
-{}
+{
+    "files.associations": {
+        "*.styl": "css",
+        "gd32f4xx_usart.h": "c",
+        "gd32f4xx.h": "c",
+        "gd32f4xx_libopt.h": "c",
+        "gd32f4xx_spi.h": "c",
+        "gd32f4xx_timer.h": "c",
+        "serial.h": "c",
+        "gd32f427zgt6.h": "c",
+        "hw.h": "c",
+        "gd32f4xx_it.h": "c",
+        "stdio.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
+}

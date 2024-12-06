@@ -1,34 +1,18 @@
 #include "hw.h"
 
-
-
-/* led spark function */
-void led_spark(void)
-{
-    static __IO uint32_t timingdelaylocal = 0U;
-
-    if (timingdelaylocal)
-    {
-
-        if (timingdelaylocal < 500U)
-        {
-            gd_eval_led_on(LED1);
-        }
-        else
-        {
-            gd_eval_led_off(LED1);
-        }
-
-        timingdelaylocal--;
-    }
-    else
-    {
-        timingdelaylocal = 1000U;
-    }
-}
-
-
 int main()
 {
+    SysTick_Config(SystemCoreClock / 1000U);
+
+    /* configure the systick handler priority */
+    nvic_priority_group_set(NVIC_PRIGROUP_PRE2_SUB2);
+    nvic_irq_enable(SysTick_IRQn, 0, 0);
+
+    delay_init(200);
+    gd_eval_com_init(0);
+
+    gd_eval_led_init(0);
+    gd_eval_led_init(1);
+
     hw();
 }

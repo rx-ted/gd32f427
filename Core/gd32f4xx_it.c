@@ -32,9 +32,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-#include "gd32f4xx_it.h"
-#include "main.h"
-#include "systick.h"
+#include <gd32f4xx_it.h>
 
 /*!
     \brief      this function handles NMI exception
@@ -45,7 +43,8 @@ OF SUCH DAMAGE.
 void NMI_Handler(void)
 {
     /* if NMI exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -58,7 +57,8 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
     /* if Hard Fault exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -71,7 +71,8 @@ void HardFault_Handler(void)
 void MemManage_Handler(void)
 {
     /* if Memory Manage exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -84,7 +85,8 @@ void MemManage_Handler(void)
 void BusFault_Handler(void)
 {
     /* if Bus Fault exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -97,7 +99,8 @@ void BusFault_Handler(void)
 void UsageFault_Handler(void)
 {
     /* if Usage Fault exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -110,7 +113,8 @@ void UsageFault_Handler(void)
 void SVC_Handler(void)
 {
     /* if SVC exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -123,7 +127,8 @@ void SVC_Handler(void)
 void DebugMon_Handler(void)
 {
     /* if DebugMon exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -136,7 +141,8 @@ void DebugMon_Handler(void)
 void PendSV_Handler(void)
 {
     /* if PendSV exception occurs, go to infinite loop */
-    while(1) {
+    while (1)
+    {
     }
 }
 
@@ -148,6 +154,6 @@ void PendSV_Handler(void)
 */
 void SysTick_Handler(void)
 {
-    // led_spark();
-    delay_decrement();
+    // delay_init(200);
+    // serial_init();
 }

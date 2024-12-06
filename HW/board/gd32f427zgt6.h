@@ -5,20 +5,11 @@
 extern "C"
 {
 #endif
-
 #include "gd32f4xx.h"
-
-    typedef enum
-    {
-        LED0 = 0,
-        LED1
-    } led_typedef_enum;
-
-    typedef enum
-    {
-        KEY0 = 0,
-        KEY_WAKEUP = 1,
-    } key_typedef_enum;
+#include <stdio.h>
+#include "main.h"
+#include "sys.h"
+#include "delay.h"
 
     typedef enum
     {
@@ -26,15 +17,15 @@ extern "C"
         KEY_MODE_EXTI = 1
     } keymode_typedef_enum;
 
-// two leds
-#define LEDn 2
-#define LED0_PIN GPIO_PIN_9
-#define LED0_GPIO_PORT GPIOF
-#define LED0_GPIO_CLK RCU_GPIOF
+    // two leds
 
-#define LED1_PIN GPIO_PIN_10
-#define LED1_GPIO_PORT GPIOF
-#define LED1_GPIO_CLK RCU_GPIOF
+#define LEDn 2U
+    typedef struct
+    {
+        uint32_t led_pin;            // GPIO_PIN_x
+        uint32_t led_port;           // GPIOx
+        rcu_periph_enum rcu_led_clk; // RCU_GPIOx
+    } Led_t;
 
 // KEY
 #define KEYn 2
@@ -46,8 +37,22 @@ extern "C"
 #define WAKEUP_KEY_GPIO_PORT GPIOA
 #define WAKEUP_KEY_GPIO_CLK RCU_GPIOA
 
-    // usb serial
-    // ?PA10:txd  PA0:rxd
+// usb serial
+// PA10:txd  PA9:rxd
+#define COM 0 // define use serial0
+#define Serialx 1U
+    typedef struct
+    {
+        uint32_t com;                   // USARTx
+        rcu_periph_enum rcu_periph_clk; // RCU_USARTx
+        uint32_t tx_pin;                // GPIO_PIN_x
+        uint32_t tx_port;               // GPIOx
+        rcu_periph_enum rcu_tx_clk;     // RCU_GPIOx
+        uint32_t rx_pin;                // GPIO_PIN_x
+        uint32_t rx_port;               // GPIOx
+        rcu_periph_enum rcu_rx_clk;     // RCU_GPIOx
+        uint32_t af;                    // GPIO_AF_x
+    } Serial_t;
 
     // spi flash
 
@@ -68,17 +73,18 @@ extern "C"
     /* FUNCTION DECLARATIONS*/
     /* configures led GPIO */
     void
-    gd_eval_led_init(led_typedef_enum lednum);
+    gd_eval_led_init(uint8_t lednum);
     /* turn on selected led */
-    void gd_eval_led_on(led_typedef_enum lednum);
+    void gd_eval_led_on(uint8_t lednum);
     /* turn off selected led */
-    void gd_eval_led_off(led_typedef_enum lednum);
+    void gd_eval_led_off(uint8_t lednum);
     /* toggle the selected led */
-    void gd_eval_led_toggle(led_typedef_enum lednum);
+    void gd_eval_led_toggle(uint8_t lednum);
     /* configure key */
-    void gd_eval_key_init(key_typedef_enum key_num, keymode_typedef_enum key_mode);
+    void gd_eval_key_init(uint8_t key_num, keymode_typedef_enum key_mode);
     /* return the selected button state */
-    uint8_t gd_eval_key_state_get(key_typedef_enum button);
+    uint8_t gd_eval_key_state_get(uint8_t button);
+    void gd_eval_com_init(uint8_t com);
 
 #ifdef _cplusplus
 }
