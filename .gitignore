@@ -1,0 +1,16 @@
+*.o
+*.hex
+main.bin
+*.lst
+*.list
+*.map
+main.elf
+output
+build
+compile_commands.json
+.cache
+.doc
+.xmake 
+Other
+Doc/Resources
+Doc/Documentation

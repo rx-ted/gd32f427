@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "Drivers/STM32F4xx_HAL_Driver/Inc",
+                "Drivers/CMSIS/Include",
+                "Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+                "HW",
+                "HW/board",
+                "HW/lcd",
+                "HW/touch",
+                "Apps/00Template/Inc",
+                "${workspaceFolder}/Plugin/lvgl/examples"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

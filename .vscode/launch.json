@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "cwd": ".",
+      "executable": "Apps/00Template/build/00Template.elf",
+      "name": "Debug with OpenOCD",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "configFiles": [
+        "/usr/share/openocd/scripts/interface/cmsis-dap.cfg",
+        "/usr/share/openocd/scripts/target/stm32f4x.cfg"
+      ],
+      "svdFile": "./tools/GD32F4xx.svd",
+      "swoConfig": {},
+      "postRestartCommands": [
+        "break hw",
+        "continue"
+      ],
+      "openOCDLaunchCommands": [
+        "cmsis_dap_backend hid",
+        "transport select swd"
+      ],
+      "searchDir": [],
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "raw"
+    }
+  ]
+}
