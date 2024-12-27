@@ -1,5 +1,5 @@
-#ifndef __GPIO_H__
-#define __GPIO_H__
+#ifndef __TMER_H__
+#define __TMER_H__
 
 #ifdef __cplusplus
 extern "C"
@@ -8,10 +8,10 @@ extern "C"
 
 #include "config.h"
 
-    void gpio_init(void);
+    void timer_init();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __GPIO_H__ */
+#endif /* __TMER_H__ */

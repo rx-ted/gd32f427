@@ -21,7 +21,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "gpio.h"
 #include "hw.h"
 
 /* USER CODE END Includes */
@@ -67,8 +66,6 @@ int main(void)
 {
   HAL_Init();
   SystemClock_Config();
-  MX_GPIO_Init();
-
   hw();
 }
 

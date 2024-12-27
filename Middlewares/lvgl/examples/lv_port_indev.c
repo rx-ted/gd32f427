@@ -16,7 +16,8 @@
 /*********************
  *      DEFINES
  *********************/
-touch_point_t tp[1];
+
+extern touch_dev_t tp;
 
 /**********************
  *      TYPEDEFS
@@ -69,7 +70,7 @@ void lv_port_indev_init(void)
 static void touchpad_init(void)
 {
     /*Your code comes here*/
-    touch_init(TOUCH_TYPE_GTXX);
+    touch_init();
 }
 
 /*Will be called by the library to read the touchpad*/
@@ -78,11 +79,11 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
     uint16_t x = 0;
     uint16_t y = 0;
     uint8_t res = 0;
-    res = touch_scan(tp, sizeof(tp) / sizeof(tp[0]));
+    res = tp.scan();
     if (res != 0)
     {
-        x = tp[0].x;
-        y = tp[0].y;
+        x = tp.point[0].x;
+        y = tp.point[0].y;
         data->state = LV_INDEV_STATE_PR;
         data->point.x = x;
         data->point.y = y;

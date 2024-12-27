@@ -175,14 +175,6 @@ typedef struct
 #define LCD_BASE (uint32_t)((0X60000000 + (0X4000000 * LCD_EXMC_NEX)) | (((1 << LCD_EXMC_AX) * 2) - 2))
 #define LCD ((LCD_TypeDef *)LCD_BASE)
 
-/* 错误代码 */
-typedef enum
-{
-    LCD_EOK,       /* 没有错误 */
-    LCD_ERROR,     /* 错误 */
-    LCD_EINVAL,    /* 非法参数 */
-    LCD_NOT_FOUND, /* 未找到 */
-} lcd_status_code_t;
 
 /* 常用画笔颜色 */
 #define WHITE 0xFFFF   // 白色
@@ -222,9 +214,7 @@ void lcd_display_off(void); /* 关显示 */
 
 void lcd_set_cursor(uint16_t x, uint16_t y);
 
-lcd_status_code_t set_lcd_display_direction(lcd_display_dir_t dir, lcd_display_mode_t mode); /* 设置屏幕显示方向 */
-
-void lcd_clear(uint16_t color); /* LCD清屏 */
+device_result_t set_lcd_display_direction(lcd_display_dir_t dir, lcd_display_mode_t mode); /* 设置屏幕显示方向 */
 
 void lcd_set_window(uint16_t sx, uint16_t sy, uint16_t width, uint16_t height); /* 设置窗口 */
 

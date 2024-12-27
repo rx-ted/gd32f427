@@ -18,7 +18,7 @@
 #define AT24C_DEV_ADDR (0XA0) // 设备地址
 
 void at24cxx_init(void);                                            /* 初始化IIC */
-uint8_t at24cxx_check(void);                                        /* 检查器件 */
+device_result_t at24cxx_check(void);                                /* 检查器件 */
 void at24cxx_write(uint16_t addr, uint8_t *pbuf, uint16_t datalen); /* 从指定地址开始写入指定长度的数据 */
 void at24cxx_read(uint16_t addr, uint8_t *pbuf, uint16_t datalen);  /* 从指定地址开始读出指定长度的数据 */
 

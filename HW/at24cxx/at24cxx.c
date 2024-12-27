@@ -12,7 +12,7 @@ I2C_HandleTypeDef hi2c1;
 void at24cxx_init(void)
 {
 
-    MX_I2C1_Init();  // Pls see Apps/XXexample/Src/i2c.c.
+    iic_init();      // Pls see Apps/XXexample/Src/i2c.c.
     at24cxx_check(); // check iic if normal.
 }
 
@@ -26,7 +26,7 @@ void at24cxx_init(void)
  *              0: 检测成功
  *              1: 检测失败
  */
-uint8_t at24cxx_check(void)
+device_result_t at24cxx_check(void)
 {
     uint8_t temp;
     uint16_t addr = EE_TYPE;
@@ -36,7 +36,7 @@ uint8_t at24cxx_check(void)
     if (temp == data)
     {
         printf("AT24Cxx: Check Okay!\n");
-        return 0;
+        return DEVICE_EOK;
     }
     else /* 排除第一次初始化的情况 */
     {
@@ -45,10 +45,10 @@ uint8_t at24cxx_check(void)
         if (temp != data)
         {
             printf("AT24Cxx: Check Failed!\n");
-            return 1;
+            return DEVICE_ERROR;
         }
     }
-    return 0;
+    return DEVICE_EOK;
 }
 
 /**

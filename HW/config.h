@@ -1,3 +1,6 @@
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
+
 #define GD32F427ZGT6_VERSION "1.0"
 
 #include "main.h"
@@ -9,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "stdbool.h"
 
 #ifndef DEBUG
 #define DEBUG
@@ -19,6 +23,15 @@
 #ifndef STM32F427xx
 #define STM32F427xx
 #endif
+
+#define LEDn 2U
+#define LED0_PIN GPIO_PIN_9
+#define LED0_GPIO_Port GPIOF
+#define LED1_PIN GPIO_PIN_10
+#define LED1_GPIO_Port GPIOF
+
+#define SERIALx 1U
+#define SERIAL1 USART1
 
 #define LCD_DATA_BITS 16
 
@@ -94,3 +107,22 @@
 #define T_MISO_GPIO_Port GPIOB
 #define T_MOSI_Pin GPIO_PIN_11
 #define T_MOSI_GPIO_Port GPIOF
+
+typedef enum
+{
+    DEVICE_EOK = 0,   // 没有错误
+    DEVICE_ERROR,     // 错误
+    DEVICE_EINVAL,    // 非法参数
+    DEVICE_NOT_FOUND, // 未找到
+    DEVICE_EBUSY,     // 忙
+    DEVICE_TIMEOUT,   // 超时
+    DEVICE_CONTINUE,  // 继续
+} device_result_t;
+
+typedef enum
+{
+    DEVICE_ON = 1,
+    DEVICE_OFF = 0,
+} device_state_t;
+
+#endif // !__CONFIG_H__

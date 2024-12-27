@@ -1,4 +1,12 @@
 #include "gpio.h"
+
+
+void gpio_init()
+{
+    MX_GPIO_Init();
+}
+
+
 /**
  * @brief GPIO Initialization Function
  * @param None

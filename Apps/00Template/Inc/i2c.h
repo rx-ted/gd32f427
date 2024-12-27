@@ -8,9 +8,7 @@ extern "C"
 
 #include "config.h"
 
-    void MX_I2C1_Init(void);
-    void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c);
-    void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c);
+    void iic_init();
 
 #ifdef __cplusplus
 }

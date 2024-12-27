@@ -1,10 +1,13 @@
 #include "config.h"
 #include "demo.h"
-#include "lcd.h"
+#include "gfx.h"
 #include "delay.h"
+#include"lcd.h"
 #include "touch.h"
 
 #define PI (float)(3.1415926)
+
+extern touch_dev_t tp;
 
 static float cube[8][3] = {
     {-32, -32, -32},
@@ -113,15 +116,19 @@ static void demo_show_cube(void)
     static uint16_t y = 139;
 
 #if (BSP_USING_TOUCH != 0)
-    static touch_point_t point[1];
 
     /* RGB LCD模块触摸扫描 */
-    if (touch_scan(point, sizeof(point) / sizeof(point[0])) == sizeof(point) / sizeof(point[0]))
+    device_result_t res = tp.scan();
+    if (res != DEVICE_EOK)
     {
-        if ((point[0].x > 56) && (point[0].x < (lcddev.width - 56)) && (point[0].y > 138) && (point[0].y < (lcddev.height - 56)))
+        return;
+    }
+
+    {
+        if ((tp.point[0].x > 56) && (tp.point[0].x < (lcddev.width - 56)) && (tp.point[0].y > 138) && (tp.point[0].y < (lcddev.height - 56)))
         {
-            x = point[0].x;
-            y = point[0].y;
+            x = tp.point[0].x;
+            y = tp.point[0].y;
         }
     }
 #endif
@@ -134,17 +141,17 @@ static void demo_show_cube(void)
     for (line_index = 0; line_index < 24; line_index += 2)
     {
         /* RGB LCD模块LCD画线段 */
-        lcd_draw_line(x + cube[line_id[line_index] - 1][0],
-                      y + cube[line_id[line_index] - 1][1],
-                      x + cube[line_id[line_index + 1] - 1][0],
-                      y + cube[line_id[line_index + 1] - 1][1],
-                      BLUE);
+        draw_line(x + cube[line_id[line_index] - 1][0],
+                  y + cube[line_id[line_index] - 1][1],
+                  x + cube[line_id[line_index + 1] - 1][0],
+                  y + cube[line_id[line_index + 1] - 1][1],
+                  BLUE);
     }
 
     delay_ms(5);
 
     // fill
-    lcd_fill(x - 56, y - 56, x + 56, y + 56, WHITE);
+    fill_clear(x - 56, y - 56, x + 56, y + 56, WHITE);
 }
 
 /**
@@ -155,52 +162,19 @@ static void demo_show_cube(void)
 void demo_run(void)
 {
 
-    lcd_init();
-    touch_init(TOUCH_TYPE_GTXX);
-
+    gfx_init();
+    touch_init();
     /* RGB LCD模块LCD清屏 */
-    lcd_clear(WHITE);
+    fill_clear(0, 0, lcddev.width, lcddev.height, WHITE);
     /* RGB LCD模块LCD显示字符串 */
 
-    lcd_show_string(10, 10, 200, 32, 32, "STM32", RED);
-    lcd_show_string(10, 42, 200, 24, 24, "ATK-MD0430R-800480", RED);
-    lcd_show_string(10, 66, 200, 16, 16, "ATOM@ALIENTEK", RED);
-
-    char showing[] = "not get a point!";
-    lcd_show_string(20, 100, lcddev.width, 16, 16, "pls see the position:", RED);
+    show_string(10, 10, 200, 32, "STM32", GFX_FONT_32, RED);
+    show_string(10, 42, 200, 24, "ATK-MD0430R-800480", GFX_FONT_24, RED);
+    show_string(10, 66, 200, 16, "ATOM@ALIENTEK", GFX_FONT_16, RED);
 
     while (1)
     {
         /* 演示立方体3D旋转 */
         demo_show_cube();
-    }
-}
-
-void demo_run1()
-{
-    lcd_init();
-    touch_init(TOUCH_TYPE_GTXX);
-    lcd_clear(WHITE);
-    touch_point_t tp[1];
-    uint8_t res;
-    uint16_t x = 0;
-    uint16_t y = 0;
-    uint16_t size = 0;
-
-    while (1)
-    {
-        uint16_t tmp_x = x;
-        uint16_t tmp_y = y;
-        uint16_t tmp_size = size;
-        res = touch_scan(tp, sizeof(tp) / sizeof(tp[0]));
-        if (res)
-        {
-            size = tp[0].size;
-            x = tp[0].x;
-            y = tp[0].y;
-        }
-        // delay_ms(5);
-        // printf("x:%d y:%d size:%d\n", x, y, size);
-        lcd_draw_point(x,y,RED);
     }
 }

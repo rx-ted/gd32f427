@@ -2,6 +2,15 @@
 
 extern I2C_HandleTypeDef hi2c1;
 
+void MX_I2C1_Init(void);
+void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c);
+void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c);
+
+void iic_init()
+{
+    MX_I2C1_Init();
+}
+
 /**
  * @brief I2C1 Initialization Function
  * @param None

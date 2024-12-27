@@ -33,11 +33,10 @@ remove_files("Drivers/STM32F4xx_HAL_Driver/Src/*template.c")
 
 -- HW, please add your hardware driver here.
 add_includedirs("HW")
-add_includedirs("HW/board")
 add_includedirs("HW/lcd")
 add_includedirs("HW/at24cxx")
 add_includedirs("HW/touch")
-add_includedirs("HW/delay")
+add_includedirs("HW/led")
 
 add_files("HW/*.c")
 add_files("HW/**/*.c")
@@ -49,7 +48,6 @@ add_includedirs("Middlewares/lvgl/demos")
 add_files("Middlewares/lvgl/src/**/*.c")
 add_files("Middlewares/lvgl/demos/**/*.c")
 add_files("Middlewares/lvgl/examples/*.c")
-
 
 local MCU = {"-mcpu=cortex-m4", "-mthumb", "-mfpu=fpv4-sp-d16", "-mfloat-abi=hard"}
 

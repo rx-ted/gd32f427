@@ -145,45 +145,26 @@ static void disp_init(void)
     gfx_init();
 }
 
-volatile bool disp_flush_enabled = true;
-
-/* Enable updating the screen (the flushing process) when disp_flush() is called by LVGL
- */
-void disp_enable_update(void)
-{
-    disp_flush_enabled = true;
-}
-
-/* Disable updating the screen (the flushing process) when disp_flush() is called by LVGL
- */
-void disp_disable_update(void)
-{
-    disp_flush_enabled = false;
-}
-
 /*Flush the content of the internal buffer the specific area on the display
  *You can use DMA or any hardware acceleration to do this operation in the background but
  *'lv_disp_flush_ready()' has to be called when finished.*/
 static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
 {
-    if (disp_flush_enabled)
-    {
-        /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
+    /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
 
-        // int32_t x;
-        // int32_t y;
-        // for (y = area->y1; y <= area->y2; y++)
-        // {
-        //     for (x = area->x1; x <= area->x2; x++)
-        //     {
-        //         /*Put a pixel to the display. For example:*/
-        //         /*put_px(x, y, *color_p)*/
-        //         lcd_draw_point(x, y, color_p->full);
-        //         color_p++;
-        //     }
-        // }
-        fill_rect(area->x1, area->y1, area->x2, area->y2, (uint16_t *)color_p);
-    }
+    // int32_t x;
+    // int32_t y;
+    // for (y = area->y1; y <= area->y2; y++)
+    // {
+    //     for (x = area->x1; x <= area->x2; x++)
+    //     {
+    //         /*Put a pixel to the display. For example:*/
+    //         /*put_px(x, y, *color_p)*/
+    //         lcd_draw_point(x, y, color_p->full);
+    //         color_p++;
+    //     }
+    // }
+    fill_rect(area->x1, area->y1, area->x2, area->y2, (uint16_t *)color_p);
 
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/

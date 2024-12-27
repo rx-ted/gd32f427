@@ -64,7 +64,7 @@ void lcd_set_cursor(uint16_t x, uint16_t y)
 }
 
 // 搜索lcd型号所有的可能
-lcd_status_code_t check_lcd_setup_param_by_id()
+device_result_t check_lcd_setup_param_by_id()
 {
     uint8_t lcd_param_indexs = sizeof(lcd_params) / sizeof(lcd_params[0]);
     for (uint8_t index = 0; index < lcd_param_indexs; index++)
@@ -83,18 +83,18 @@ lcd_status_code_t check_lcd_setup_param_by_id()
             lcddev.width = lcd_param.factory_width;
             lcddev.height = lcd_param.factory_height;
             lcd_param.register_init();
-            printf("LCD: Successfully Initialized, ID: 0x%x\n", id);
-            return LCD_EOK;
+            printf("[lcd]: Successfully Initialized, ID: 0x%x\n", id);
+            return DEVICE_EOK;
         }
     }
-    printf("[E]LCD: Not found lcd controler!\n");
-    return LCD_NOT_FOUND;
+    printf("[E][lcd]: Not found lcd controler!\n");
+    return DEVICE_NOT_FOUND;
 }
 
 void exmc_sram_init(void)
 {
     // 初始化EXMC
-    MX_FMC_Init();
+    fmc_init();
 }
 
 // 初始化LCD
@@ -109,7 +109,7 @@ void lcd_init(void)
     LCD_RST(1);
     delay_ms(200);
 
-    if (check_lcd_setup_param_by_id() != LCD_EOK)
+    if (check_lcd_setup_param_by_id() != DEVICE_EOK)
     {
         return;
     }
@@ -133,9 +133,9 @@ void _set_lcd_address_mode()
 }
 
 /* 设置屏幕显示方向 */
-lcd_status_code_t set_lcd_display_direction(lcd_display_dir_t dir, lcd_display_mode_t mode)
+device_result_t set_lcd_display_direction(lcd_display_dir_t dir, lcd_display_mode_t mode)
 {
-    lcd_status_code_t res = LCD_EOK;
+    device_result_t res = DEVICE_EOK;
     lcd_param_t lcd_param = lcd_params[lcddev.id];
 
     if (mode == VERITAL_MODE)
@@ -152,7 +152,7 @@ lcd_status_code_t set_lcd_display_direction(lcd_display_dir_t dir, lcd_display_m
             lcddev.width = lcd_param.factory_height;
         }
         else
-            res = LCD_EINVAL;
+            res = DEVICE_EINVAL;
     }
     else if (mode == HORIZONTAL_MODE)
     {
@@ -167,12 +167,12 @@ lcd_status_code_t set_lcd_display_direction(lcd_display_dir_t dir, lcd_display_m
             lcddev.height = lcd_param.factory_height;
         }
         else
-            res = LCD_EINVAL;
+            res = DEVICE_EINVAL;
     }
     else
-        res = LCD_EINVAL;
+        res = DEVICE_EINVAL;
 
-    if (res == LCD_EOK)
+    if (res == DEVICE_EOK)
     {
         lcddev.dir = dir;
         lcddev.mode = mode;

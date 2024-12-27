@@ -12,7 +12,8 @@
                 "HW/lcd",
                 "HW/touch",
                 "Apps/00Template/Inc",
-                "${workspaceFolder}/Plugin/lvgl/examples"
+                "${workspaceFolder}/Plugin/lvgl/examples",
+                "${workspaceFolder}/Middlewares/lvgl"
             ],
             "defines": [],
             "cStandard": "c17",

@@ -59,7 +59,11 @@
         "lcd_ex.h": "c",
         "lv_demo_widgets.h": "c",
         "lv_demo_stress.h": "c",
-        "lv_demo_benchmark.h": "c"
+        "lv_demo_benchmark.h": "c",
+        "*.bak": "cpp",
+        "timer.h": "c",
+        "led.h": "c",
+        "stdbool.h": "c"
     },
     "cortex-debug.variableUseNaturalFormat": true,
     "C_Cpp.default.compilerPath": "/opt/arm-gcc.13.3/bin/arm-none-eabi-gcc"

@@ -1,5 +1,23 @@
 # touch
 
+## inter face
+
+when the local address is 0x14, the read cmd is 0x29, the write cmd is 0x28
+
+7bit address: 0x14      ->  001 0100 (high 7 bits)
+8bit write address 0x28 -> 0010 1000 (last 1 bit write)
+8bit read address 0x29  -> 0010 1001 (last 1 bit read)
+
+### write 时序
+
+S-Address_W-ack-write cmd : register high-ack-write cmd : register low-ack-dataX-E
+
+### read 时序
+
+S-Address_W-ack-write cmd : register high-ack-write cmd : register low-ack-E
+S-Address_R-ack-dataX-nack-E
+
+
 ## pin to pin default
 
 |  id   | gpio  | pinout name |             touch name             |     description      |
