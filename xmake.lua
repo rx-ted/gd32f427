@@ -25,9 +25,9 @@ set_targetdir(target_dir)
 set_filename(project_name .. '.elf')
 add_defines("USE_HAL_DRIVER", "STM32F427xx", "DEBUG")
 add_files(string.format('%s/Startup/startup_stm32f427xx.s', home_dir))
-add_files(home_dir .. '/Src/*.c', "Drivers/STM32F4xx_HAL_Driver/Src/*.c")
-add_includedirs(home_dir .. '/Inc', "Drivers/STM32F4xx_HAL_Driver/Inc", "Drivers/CMSIS/Include",
-    "Drivers/CMSIS/Device/ST/STM32F4xx/Include")
+add_files(home_dir .. '/Core/Src/*.c', home_dir .. '/System/*.c', "Drivers/STM32F4xx_HAL_Driver/Src/*.c")
+add_includedirs(home_dir .. '/Core/Inc', home_dir .. '/System', "Drivers/STM32F4xx_HAL_Driver/Inc",
+    "Drivers/CMSIS/Include", "Drivers/CMSIS/Device/ST/STM32F4xx/Include")
 
 remove_files("Drivers/STM32F4xx_HAL_Driver/Src/*template.c")
 

@@ -58,7 +58,7 @@ void SysTick_Handler(void);
 void EXTI4_IRQHandler(void);
 void TIM3_IRQHandler(void);
 /* USER CODE BEGIN EFP */
-
+uint32_t get_hw_count();
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

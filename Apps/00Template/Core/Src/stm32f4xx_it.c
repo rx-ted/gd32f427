@@ -26,6 +26,7 @@
 #ifdef BSP_USING_LVGL
 #include "lvgl.h"
 #endif // BSP_USING_LVGL
+static uint32_t hw_count = 0; // 计数
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -222,7 +223,8 @@ void EXTI4_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-
+  hw_count +=1;
+  key_scan(); // 按键扫描
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
@@ -233,5 +235,8 @@ void TIM3_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+uint32_t get_hw_count()
+{
+  return hw_count;
+}
 /* USER CODE END 1 */
