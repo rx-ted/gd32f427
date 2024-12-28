@@ -94,7 +94,7 @@ device_result_t check_lcd_setup_param_by_id()
 void exmc_sram_init(void)
 {
     // 初始化EXMC
-    fmc_init();
+    // TODO(ben): in the main.c file, there is a function called MX_FMC_Init. It is used to initialize the FMC. I think we don't need to initialize the FMC here. Because the lcd initialization function and other nor flash initialization functions are the same. So, I think we can initialize the FMC in the main.c file.
 }
 
 // 初始化LCD

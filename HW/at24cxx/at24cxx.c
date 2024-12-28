@@ -2,7 +2,7 @@
 #include "delay.h"
 #include "i2c.h"
 
-I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c1;
 
 /**
  * @brief       初始化IIC接口
@@ -12,7 +12,7 @@ I2C_HandleTypeDef hi2c1;
 void at24cxx_init(void)
 {
 
-    iic_init();      // Pls see Apps/XXexample/Src/i2c.c.
+    // Pls see Apps/XXexample/Core/Src/i2cx.c.
     at24cxx_check(); // check iic if normal.
 }
 

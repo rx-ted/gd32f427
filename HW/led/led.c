@@ -9,8 +9,8 @@ typedef struct
 } led_t;
 
 led_t leds[LEDn] = {
-    {0, DEVICE_OFF, LED0_PIN, LED0_GPIO_Port},
-    {1, DEVICE_OFF, LED1_PIN, LED1_GPIO_Port},
+    {0, DEVICE_OFF, LED0_Pin, LED0_GPIO_Port},
+    {1, DEVICE_OFF, LED1_Pin, LED1_GPIO_Port},
 };
 
 void set_led_is_init(uint8_t led_num, device_state_t state)

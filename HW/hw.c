@@ -9,37 +9,28 @@
 #include "gfx.h"
 #include "touch.h"
 #include "led.h"
+#include "serial.h"
 
 extern touch_dev_t tp;
 
 void hw()
 {
+    printf("[I]][HW] Hardware init...\n");
 
-    gpio_init();
     delay_init();
-    timer_init();
     usart_init(0);
 
     // at24cxx_init();
 
-    // lv_init();
-    // lv_port_disp_init();
-    // lv_port_indev_init();
-    // lv_demo_widgets();
+    lv_init();
+    lv_port_disp_init();
+    lv_port_indev_init();
+    lv_demo_widgets();
     // lv_demo_stress();
     // lv_demo_benchmark();
-    demo_run();
-
+    // demo_run();
     while (1)
     {
-        delay_ms(500);
-        led_toggle(0);
-        delay_ms(500);
-        led_toggle(1);
-
-        // lv_task_handler(); // lvgl的事务处理
+        lv_task_handler(); // lvgl的事务处理
     }
-
-    // key init
-    // serial init
 }

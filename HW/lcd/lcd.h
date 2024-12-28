@@ -3,15 +3,6 @@
 
 #include "config.h"
 
-#if (LCD_DATA_BITS == 8)
-#define LCD_PIXEL_FORMAT 8
-#elif (LCD_DATA_BITS == 16)
-#define LCD_PIXEL_FORMAT 16
-#else
-#error "#error LCD_DATA_BITS must be defined as 8 or 16"
-#endif
-
-#if (LCD_DATA_BITS == 8 || LCD_DATA_BITS == 16)
 // !8080 inferface
 #define LCD_8080_BL_Pin LCD_BL_Pin
 #define LCD_8080_BL_GPIO_Port LCD_BL_GPIO_Port
@@ -25,47 +16,6 @@
 #define LCD_8080_WR_GPIO_Port LCD_WR_GPIO_Port
 #define LCD_8080_CS_Pin LCD_CS_Pin
 #define LCD_8080_CS_GPIO_Port LCD_CS_GPIO_Port
-
-// when the lcd data bits are 8.
-#if (LCD_PIXEL_FORMAT >= 8)
-#define LCD_DATA_B0_Pin LCD_D0_Pin
-#define LCD_DATA_B0_GPIO_Port LCD_D0_GPIO_Port
-#define LCD_DATA_B1_Pin LCD_D1_Pin
-#define LCD_DATA_B1_GPIO_Port LCD_D1_GPIO_Port
-#define LCD_DATA_B2_Pin LCD_D2_Pin
-#define LCD_DATA_B2_GPIO_Port LCD_D2_GPIO_Port
-#define LCD_DATA_B3_Pin LCD_D3_Pin
-#define LCD_DATA_B3_GPIO_Port LCD_D3_GPIO_Port
-#define LCD_DATA_B4_Pin LCD_D4_Pin
-#define LCD_DATA_B4_GPIO_Port LCD_D4_GPIO_Port
-#define LCD_DATA_B5_Pin LCD_D5_Pin
-#define LCD_DATA_B5_GPIO_Port LCD_D5_GPIO_Port
-#define LCD_DATA_B6_Pin LCD_D6_Pin
-#define LCD_DATA_B6_GPIO_Port LCD_D6_GPIO_Port
-#define LCD_DATA_B7_Pin LCD_D7_Pin
-#define LCD_DATA_B7_GPIO_Port LCD_D7_GPIO_Port
-#endif
-// when the lcd data bits are 16.
-#if (LCD_PIXEL_FORMAT >= 16)
-#define LCD_DATA_B8_Pin LCD_D8_Pin
-#define LCD_DATA_B8_GPIO_Port LCD_D8_GPIO_Port
-#define LCD_DATA_B9_Pin LCD_D9_Pin
-#define LCD_DATA_B9_GPIO_Port LCD_D9_GPIO_Port
-#define LCD_DATA_B10_Pin LCD_D10_Pin
-#define LCD_DATA_B10_GPIO_Port LCD_D10_GPIO_Port
-#define LCD_DATA_B11_Pin LCD_D11_Pin
-#define LCD_DATA_B11_GPIO_Port LCD_D11_GPIO_Port
-#define LCD_DATA_B12_Pin LCD_D12_Pin
-#define LCD_DATA_B12_GPIO_Port LCD_D12_GPIO_Port
-#define LCD_DATA_B13_Pin LCD_D13_Pin
-#define LCD_DATA_B13_GPIO_Port LCD_D13_GPIO_Port
-#define LCD_DATA_B14_Pin LCD_D14_Pin
-#define LCD_DATA_B14_GPIO_Port LCD_D14_GPIO_Port
-#define LCD_DATA_B15_Pin LCD_D15_Pin
-#define LCD_DATA_B15_GPIO_Port LCD_D15_GPIO_Port
-#endif
-
-#endif
 
 /******************************************************************************************/
 
@@ -174,7 +124,6 @@ typedef struct
  */
 #define LCD_BASE (uint32_t)((0X60000000 + (0X4000000 * LCD_EXMC_NEX)) | (((1 << LCD_EXMC_AX) * 2) - 2))
 #define LCD ((LCD_TypeDef *)LCD_BASE)
-
 
 /* 常用画笔颜色 */
 #define WHITE 0xFFFF   // 白色
