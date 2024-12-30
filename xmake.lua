@@ -31,16 +31,6 @@ add_includedirs(home_dir .. '/Core/Inc', home_dir .. '/System', "Drivers/STM32F4
 
 remove_files("Drivers/STM32F4xx_HAL_Driver/Src/*template.c")
 
--- HW, please add your hardware driver here.
-add_includedirs("HW")
-add_includedirs("HW/lcd")
-add_includedirs("HW/at24cxx")
-add_includedirs("HW/touch")
-add_includedirs("HW/led")
-
-add_files("HW/*.c")
-add_files("HW/**/*.c")
-
 -- Middlewares, please add your middleware here.
 add_includedirs("Middlewares/lvgl")
 add_includedirs("Middlewares/lvgl/examples")
@@ -64,7 +54,17 @@ add_ldflags(table.concat(MCU, ' '), "-specs=nano.specs", string.format(
     force = true
 })
 
-target_end()
+-- 添加依赖文件
+on_load(function(target)
+    import('tools.utils', 'utils')
+    local hw_object = utils.getIncludeDirsAndFiles('HW/**')
+    for _, file in ipairs(hw_object.files) do
+        target:add('files', file)
+    end
+    for _, dir in ipairs(hw_object.include_dirs) do
+        target:add('includedirs', dir)
+    end
+end)
 
 -- 构建完成后的回调函数
 after_build(function(target)
