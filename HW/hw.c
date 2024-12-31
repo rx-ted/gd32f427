@@ -10,8 +10,10 @@
 #include "touch.h"
 #include "led.h"
 #include "serial.h"
+#include "w25qxx_demo.h"
 
 extern touch_dev_t tp;
+extern SPI_HandleTypeDef hspi3;
 
 void hw()
 {
@@ -19,8 +21,8 @@ void hw()
 
     delay_init();
     usart_init(0);
-
     // at24cxx_init();
+    w25qxx_demo();
 
     lv_init();
     lv_port_disp_init();
